@@ -2,9 +2,12 @@ package com.ban.evento.service;
 
 import com.ban.evento.model.artigo.Artigo;
 import com.ban.evento.repository.ArtigoRepository;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.List;
 
+@Service
 public class ArtigoService {
 
     private ArtigoRepository repository;
@@ -15,6 +18,10 @@ public class ArtigoService {
 
     public void save(Artigo artigo) {
         this.repository.save(artigo);
+    }
+
+    public List<Artigo> findAll() throws SQLException {
+        return this.repository.findAll();
     }
 
 }
