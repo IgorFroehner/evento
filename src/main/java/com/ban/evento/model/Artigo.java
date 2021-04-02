@@ -1,4 +1,6 @@
-package com.ban.evento.model.artigo;
+package com.ban.evento.model;
+
+import java.util.Objects;
 
 public class Artigo {
 
@@ -51,4 +53,18 @@ public class Artigo {
     public void setEdicaoid(Integer edicaoid) {
         this.edicaoid = edicaoid;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Artigo)) return false;
+        Artigo artigo = (Artigo) o;
+        return Objects.equals(artigoid, artigo.artigoid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(artigoid, titulo, tipoid, edicaoid);
+    }
+
 }

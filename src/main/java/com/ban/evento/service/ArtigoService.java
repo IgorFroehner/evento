@@ -1,6 +1,6 @@
 package com.ban.evento.service;
 
-import com.ban.evento.model.artigo.Artigo;
+import com.ban.evento.model.Artigo;
 import com.ban.evento.repository.ArtigoRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ public class ArtigoService {
         this.repository = ArtigoRepository.getInstance();
     }
 
-    public void save(Artigo artigo) {
+    public void save(Artigo artigo) throws SQLException {
         this.repository.save(artigo);
     }
 

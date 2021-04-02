@@ -1,6 +1,6 @@
 package com.ban.evento.controller;
 
-import com.ban.evento.model.artigo.Artigo;
+import com.ban.evento.model.Artigo;
 import com.ban.evento.service.ArtigoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
