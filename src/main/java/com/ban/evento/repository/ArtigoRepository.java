@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ArtigoRepository {
 
@@ -25,6 +26,8 @@ public class ArtigoRepository {
         update = connection.prepareStatement("UPDATE public.artigos SET titulo=?, tipoid=?, edicaoid=? WHERE artigoid=?");
         newId = connection.prepareStatement("SELECT max(artigoid)+1 FROM public.artigos");
         selectAll = connection.prepareStatement("SELECT * FROM public.artigos");
+        select = connection.prepareStatement("SELECT * FROM public.artigos WHERE artigoid=?");
+        delete = connection.prepareStatement("DELETE FROM artigos WHERE artigoid=?");
     }
 
     public static ArtigoRepository getInstance() throws SQLException, ClassNotFoundException {
@@ -32,6 +35,27 @@ public class ArtigoRepository {
             instance = new ArtigoRepository();
         }
         return instance;
+    }
+
+    public Optional<Artigo> findById(Integer artigoid) throws SQLException {
+        select.setInt(1, artigoid);
+        ResultSet rs = select.executeQuery();
+        if (rs.next())
+            return Optional.of(new Artigo(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getInt(3),
+                    rs.getInt(4)
+            ));
+        return Optional.empty();
+    }
+
+    public void update(Artigo artigo) throws SQLException {
+        update.setString(1, artigo.getTitulo());
+        update.setInt(2, artigo.getTipoid());
+        update.setInt(3, artigo.getEdicaoid());
+        update.setInt(4, artigo.getArtigoid());
+        update.executeUpdate();
     }
 
     public void save(Artigo artigo) throws SQLException {
@@ -63,5 +87,9 @@ public class ArtigoRepository {
         return list;
     }
 
+    public void delete(Artigo artigo) throws SQLException {
+        delete.setInt(1, artigo.getArtigoid());
+        delete.executeUpdate();
+    }
 
 }
