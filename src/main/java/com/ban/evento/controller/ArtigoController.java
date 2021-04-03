@@ -17,16 +17,29 @@ import java.util.List;
 public class ArtigoController {
 
     @Autowired
-    private ArtigoService artigoService;
+    private ArtigoService service;
 
     @GetMapping
     public ResponseEntity findAll(){
         try {
-            List<Artigo> res = artigoService.findAll();
+            List<Artigo> res = service.findAll();
             return new ResponseEntity(res, HttpStatus.OK);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return new ResponseEntity(throwables.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity findById(Integer id) {
+        try {
+            return this.service.findById(id).map(
+                    artigo -> new ResponseEntity(artigo, HttpStatus.OK)
+            ).orElseGet(
+                    () -> new ResponseEntity("Id não encontrado", HttpStatus.BAD_REQUEST));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return new ResponseEntity("Id não encontrado", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
