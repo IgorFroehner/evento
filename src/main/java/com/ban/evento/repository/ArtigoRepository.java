@@ -1,6 +1,7 @@
 package com.ban.evento.repository;
 
 import com.ban.evento.model.Artigo;
+import com.ban.evento.model.Edicao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,6 +20,7 @@ public class ArtigoRepository {
     private PreparedStatement newId;
     private PreparedStatement delete;
     private PreparedStatement selectAll;
+    private PreparedStatement selectByEdicao;
 
     public ArtigoRepository() throws SQLException, ClassNotFoundException {
         Connection connection = ConnectionSingleton.getConnection();
@@ -28,6 +30,7 @@ public class ArtigoRepository {
         selectAll = connection.prepareStatement("SELECT * FROM public.artigos");
         select = connection.prepareStatement("SELECT * FROM public.artigos WHERE artigoid=?");
         delete = connection.prepareStatement("DELETE FROM artigos WHERE artigoid=?");
+        selectByEdicao = connection.prepareStatement("SELECT * FROM public.artigos WHERE edicaoid=?");
     }
 
     public static ArtigoRepository getInstance() throws SQLException, ClassNotFoundException {
@@ -90,6 +93,21 @@ public class ArtigoRepository {
     public void delete(Artigo artigo) throws SQLException {
         delete.setInt(1, artigo.getArtigoid());
         delete.executeUpdate();
+    }
+
+    public List<Artigo> findByEdicao(Edicao edicao) throws SQLException {
+        selectByEdicao.setInt(1, edicao.getEdicaoid());
+        ResultSet rs = selectByEdicao.executeQuery();
+        List<Artigo> list = new ArrayList<>();
+        while (rs.next()) {
+            list.add(new Artigo(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getInt(3),
+                    rs.getInt(4)
+            ));
+        }
+        return list;
     }
 
 }

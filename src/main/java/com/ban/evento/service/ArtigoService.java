@@ -1,6 +1,7 @@
 package com.ban.evento.service;
 
 import com.ban.evento.model.Artigo;
+import com.ban.evento.model.Edicao;
 import com.ban.evento.repository.ArtigoRepository;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,10 @@ public class ArtigoService {
 
     public List<Artigo> findAll() throws SQLException {
         return this.repository.findAll();
+    }
+
+    public List<Artigo> findByEdicao(Edicao edicao) throws SQLException {
+        return this.repository.findByEdicao(edicao);
     }
 
 }

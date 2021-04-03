@@ -1,6 +1,7 @@
 package com.ban.evento.controller;
 
 import com.ban.evento.model.Artigo;
+import com.ban.evento.model.Edicao;
 import com.ban.evento.service.ArtigoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,18 @@ public class ArtigoController {
                     artigo -> new ResponseEntity(artigo, HttpStatus.OK)
             ).orElseGet(
                     () -> new ResponseEntity("Id não encontrado", HttpStatus.BAD_REQUEST));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return new ResponseEntity("Id não encontrado", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("by_edicao/{id}")
+    public ResponseEntity findByEdicao(Integer edicaoid) {
+        try {
+            Edicao edicao = new Edicao();
+            edicao.setEdicaoid(edicaoid);
+            return new ResponseEntity(this.service.findByEdicao(edicao), HttpStatus.OK);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return new ResponseEntity("Id não encontrado", HttpStatus.INTERNAL_SERVER_ERROR);
