@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ArtigoService {
@@ -14,6 +15,10 @@ public class ArtigoService {
 
     public ArtigoService() throws SQLException, ClassNotFoundException {
         this.repository = ArtigoRepository.getInstance();
+    }
+
+    public Optional<Artigo> findById(Integer id) throws SQLException {
+        return this.repository.findById(id);
     }
 
     public void save(Artigo artigo) throws SQLException {
