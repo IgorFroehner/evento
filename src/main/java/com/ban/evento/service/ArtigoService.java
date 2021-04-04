@@ -34,4 +34,8 @@ public class ArtigoService {
         return this.repository.findByEdicao(edicao);
     }
 
+    public List<Artigo> findByCidade(Edicao edicao) throws SQLException {
+        return this.repository.findByCidadeEdicao(edicao);
+    }
+
 }

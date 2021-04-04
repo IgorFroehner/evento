@@ -2,6 +2,7 @@ package com.ban.evento.repository;
 
 import com.ban.evento.model.Artigo;
 import com.ban.evento.model.Edicao;
+import com.ban.evento.model.Tipo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,6 +22,8 @@ public class ArtigoRepository {
     private PreparedStatement delete;
     private PreparedStatement selectAll;
     private PreparedStatement selectByEdicao;
+    private PreparedStatement selectByCidade;
+    private PreparedStatement selectByTipo;
 
     public ArtigoRepository() throws SQLException, ClassNotFoundException {
         Connection connection = ConnectionSingleton.getConnection();
@@ -31,6 +34,8 @@ public class ArtigoRepository {
         select = connection.prepareStatement("SELECT * FROM public.artigos WHERE artigoid=?");
         delete = connection.prepareStatement("DELETE FROM artigos WHERE artigoid=?");
         selectByEdicao = connection.prepareStatement("SELECT * FROM public.artigos WHERE edicaoid=?");
+        selectByCidade = connection.prepareStatement("SELECT a.* FROM public.artigos a JOIN public.edicoes e ON a.edicaoid = e.edicaoid WHERE e.cidade=?");
+        selectByTipo = connection.prepareStatement("SELECT * FROM artigos WHERE tipoid IN (SELECT tipoid FROM tipos WHERE tipoid=?)");
     }
 
     public static ArtigoRepository getInstance() throws SQLException, ClassNotFoundException {
@@ -77,17 +82,7 @@ public class ArtigoRepository {
     }
 
     public List<Artigo> findAll() throws SQLException {
-        List<Artigo> list = new ArrayList<>();
-        ResultSet rs = selectAll.executeQuery();
-        while (rs.next()) {
-            list.add(new Artigo(
-                    rs.getInt(1),
-                    rs.getString(2),
-                    rs.getInt(3),
-                    rs.getInt(4)
-            ));
-        }
-        return list;
+        return getArtigos(selectAll);
     }
 
     public void delete(Artigo artigo) throws SQLException {
@@ -97,7 +92,22 @@ public class ArtigoRepository {
 
     public List<Artigo> findByEdicao(Edicao edicao) throws SQLException {
         selectByEdicao.setInt(1, edicao.getEdicaoid());
-        ResultSet rs = selectByEdicao.executeQuery();
+        return getArtigos(selectByEdicao);
+    }
+
+    public List<Artigo> findByCidadeEdicao(Edicao edicao) throws SQLException {
+        selectByCidade.setString(1, edicao.getCidade());
+        return getArtigos(selectByCidade);
+    }
+
+    private List<Artigo> findByTipo(Tipo tipo) throws SQLException {
+        selectByTipo.setInt(1, tipo.getTipoid());
+        return getArtigos(selectByTipo);
+    }
+
+
+    private List<Artigo> getArtigos(PreparedStatement selectByCidade) throws SQLException {
+        ResultSet rs = selectByCidade.executeQuery();
         List<Artigo> list = new ArrayList<>();
         while (rs.next()) {
             list.add(new Artigo(
@@ -109,5 +119,6 @@ public class ArtigoRepository {
         }
         return list;
     }
+
 
 }
