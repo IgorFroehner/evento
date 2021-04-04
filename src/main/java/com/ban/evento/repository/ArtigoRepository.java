@@ -35,7 +35,7 @@ public class ArtigoRepository {
         delete = connection.prepareStatement("DELETE FROM artigos WHERE artigoid=?");
         selectByEdicao = connection.prepareStatement("SELECT * FROM public.artigos WHERE edicaoid=?");
         selectByCidade = connection.prepareStatement("SELECT a.* FROM public.artigos a JOIN public.edicoes e ON a.edicaoid = e.edicaoid WHERE e.cidade=?");
-        selectByTipo = connection.prepareStatement("SELECT * FROM artigos WHERE tipoid IN (SELECT tipoid FROM tipos WHERE tipoid=?)");
+        selectByTipo = connection.prepareStatement("SELECT * FROM artigos WHERE tipoid=?");
     }
 
     public static ArtigoRepository getInstance() throws SQLException, ClassNotFoundException {
