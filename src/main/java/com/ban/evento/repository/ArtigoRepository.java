@@ -1,6 +1,7 @@
 package com.ban.evento.repository;
 
 import com.ban.evento.model.Artigo;
+import com.ban.evento.model.Autor;
 import com.ban.evento.model.Edicao;
 import com.ban.evento.model.Tipo;
 
@@ -24,6 +25,7 @@ public class ArtigoRepository {
     private PreparedStatement selectByEdicao;
     private PreparedStatement selectByCidade;
     private PreparedStatement selectByTipo;
+    private PreparedStatement selectByNomeAutor;
 
     public ArtigoRepository() throws SQLException, ClassNotFoundException {
         Connection connection = ConnectionSingleton.getConnection();
@@ -36,6 +38,7 @@ public class ArtigoRepository {
         selectByEdicao = connection.prepareStatement("SELECT * FROM public.artigos WHERE edicaoid=?");
         selectByCidade = connection.prepareStatement("SELECT a.* FROM public.artigos a JOIN public.edicoes e ON a.edicaoid = e.edicaoid WHERE e.cidade=?");
         selectByTipo = connection.prepareStatement("SELECT * FROM artigos WHERE tipoid=?");
+        selectByNomeAutor = connection.prepareStatement("SELECT * FROM artigos a JOIN autoresartigo aa ON a.artigoid = aa.artigoid WHERE aa.autorid IN (SELECT autorid FROM autores WHERE nome LIKE ?)");
     }
 
     public static ArtigoRepository getInstance() throws SQLException, ClassNotFoundException {
@@ -100,9 +103,14 @@ public class ArtigoRepository {
         return getArtigos(selectByCidade);
     }
 
-    private List<Artigo> findByTipo(Tipo tipo) throws SQLException {
+    public List<Artigo> findByTipo(Tipo tipo) throws SQLException {
         selectByTipo.setInt(1, tipo.getTipoid());
         return getArtigos(selectByTipo);
+    }
+
+    public List<Artigo> findByNomeAutor(String nomeAutor) throws SQLException {
+        selectByNomeAutor.setString(1, nomeAutor+"%");
+        return getArtigos(selectByNomeAutor);
     }
 
 

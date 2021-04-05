@@ -40,7 +40,7 @@ public class ArtigoController {
                     () -> new ResponseEntity("Id não encontrado", HttpStatus.BAD_REQUEST));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return new ResponseEntity("Id não encontrado", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity("Erro Interno", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -52,7 +52,29 @@ public class ArtigoController {
             return new ResponseEntity(this.service.findByEdicao(edicao), HttpStatus.OK);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return new ResponseEntity("Id não encontrado", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity("Erro Interno", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("by_cidade/{cidade}")
+    public ResponseEntity findByCidade(String cidade) {
+        try {
+            Edicao edicao = new Edicao();
+            edicao.setCidade(cidade);
+            return new ResponseEntity(this.service.findByCidade(edicao), HttpStatus.OK);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return new ResponseEntity("Erro Interno", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("by_nome_autor/{nome_autor}")
+    public ResponseEntity findByNomeAutor(String nomeAutor) {
+        try {
+            return new ResponseEntity(this.service.findByNomeAutor(nomeAutor), HttpStatus.OK);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return new ResponseEntity("Erro Interno", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

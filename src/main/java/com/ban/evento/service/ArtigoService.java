@@ -38,4 +38,8 @@ public class ArtigoService {
         return this.repository.findByCidadeEdicao(edicao);
     }
 
+    public List<Artigo> findByNomeAutor(String nomeAutor) throws SQLException {
+        return this.repository.findByNomeAutor(nomeAutor);
+    }
+
 }
