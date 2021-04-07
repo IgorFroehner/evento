@@ -1,8 +1,6 @@
 package com.ban.evento.service;
 
-import com.ban.evento.model.Artigo;
 import com.ban.evento.model.Autor;
-import com.ban.evento.repository.ArtigoRepository;
 import com.ban.evento.repository.AutorRepository;
 import org.springframework.stereotype.Service;
 

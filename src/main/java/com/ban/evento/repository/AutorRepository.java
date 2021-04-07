@@ -19,6 +19,7 @@ public class AutorRepository {
     private PreparedStatement newId;
     private PreparedStatement delete;
     private PreparedStatement selectAll;
+    private PreparedStatement findByArtigo;
 
     public AutorRepository() throws SQLException, ClassNotFoundException {
         Connection connection = ConnectionSingleton.getConnection();
@@ -28,6 +29,7 @@ public class AutorRepository {
         selectAll = connection.prepareStatement("SELECT * FROM public.autores");
         select = connection.prepareStatement("SELECT * FROM public.autores WHERE autorid=?");
         delete = connection.prepareStatement("DELETE FROM public.autores WHERE autorid=?");
+        findByArtigo = connection.prepareStatement("SELECT a.* FROM autores a JOIN autoresartigo aa ON a.autorid = aa.autorid WHERE aa.artigoid=?");
     }
 
     public static AutorRepository getInstance() throws SQLException, ClassNotFoundException {
@@ -88,5 +90,18 @@ public class AutorRepository {
         delete.executeUpdate();
     }
 
+    public List<Autor> findByArtigoId(Integer artigoid) throws SQLException {
+        findByArtigo.setInt(1, artigoid);
+        ResultSet rs = findByArtigo.executeQuery();
+        List<Autor> res = new ArrayList<>();
+        while (rs.next()) {
+            res.add(new Autor(
+                rs.getInt(1),
+                rs.getString(2),
+                rs.getString(3).charAt(0)
+            ));
+        }
+        return res;
+    }
 
 }

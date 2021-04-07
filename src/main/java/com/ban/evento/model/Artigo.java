@@ -1,5 +1,6 @@
 package com.ban.evento.model;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Artigo {
@@ -8,18 +9,44 @@ public class Artigo {
 
     private String titulo;
 
-    private Integer tipoid;
+    private Tipo tipo;
 
-    private Integer edicaoid;
+    private Edicao edicao;
+
+    private List<Autor> autores;
 
     public Artigo() {
     }
 
-    public Artigo(Integer artigoid, String titulo, Integer tipoid, Integer edicaoid) {
+    public Artigo(Integer artigoid, String titulo, Tipo tipo, Edicao edicao) {
         this.artigoid = artigoid;
         this.titulo = titulo;
-        this.tipoid = tipoid;
-        this.edicaoid = edicaoid;
+        this.tipo = tipo;
+        this.edicao = edicao;
+    }
+
+    public Artigo(Integer artigoid, String titulo, Tipo tipo, Edicao edicao, List<Autor> autores) {
+        this.artigoid = artigoid;
+        this.titulo = titulo;
+        this.tipo = tipo;
+        this.edicao = edicao;
+        this.autores = autores;
+    }
+
+    public Tipo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
+    }
+
+    public Edicao getEdicao() {
+        return edicao;
+    }
+
+    public void setEdicao(Edicao edicao) {
+        this.edicao = edicao;
     }
 
     public Integer getArtigoid() {
@@ -38,21 +65,6 @@ public class Artigo {
         this.titulo = titulo;
     }
 
-    public Integer getTipoid() {
-        return tipoid;
-    }
-
-    public void setTipoid(Integer tipoid) {
-        this.tipoid = tipoid;
-    }
-
-    public Integer getEdicaoid() {
-        return edicaoid;
-    }
-
-    public void setEdicaoid(Integer edicaoid) {
-        this.edicaoid = edicaoid;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -64,7 +76,10 @@ public class Artigo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(artigoid, titulo, tipoid, edicaoid);
+        return Objects.hash(artigoid, titulo, tipo, edicao);
     }
 
+    public List<Autor> getAutores() {
+        return autores;
+    }
 }

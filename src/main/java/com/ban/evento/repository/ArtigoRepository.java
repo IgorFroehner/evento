@@ -16,6 +16,10 @@ import java.util.Optional;
 public class ArtigoRepository {
 
     private static ArtigoRepository instance = null;
+    private EdicaoRepository edicaoRepository;
+    private TipoRepository tipoRepository;
+    private AutorRepository autorRepository;
+    private AutoresArtigoRepository autoresArtigoRepository;
     private PreparedStatement insert;
     private PreparedStatement update;
     private PreparedStatement select;
@@ -39,6 +43,10 @@ public class ArtigoRepository {
         selectByCidade = connection.prepareStatement("SELECT a.* FROM public.artigos a JOIN public.edicoes e ON a.edicaoid = e.edicaoid WHERE e.cidade=?");
         selectByTipo = connection.prepareStatement("SELECT * FROM artigos WHERE tipoid=?");
         selectByNomeAutor = connection.prepareStatement("SELECT * FROM artigos a JOIN autoresartigo aa ON a.artigoid = aa.artigoid WHERE aa.autorid IN (SELECT autorid FROM autores WHERE nome LIKE ?)");
+        edicaoRepository = EdicaoRepository.getInstance();
+        tipoRepository = TipoRepository.getInstance();
+        autoresArtigoRepository = AutoresArtigoRepository.getInstance();
+        autorRepository = AutorRepository.getInstance();
     }
 
     public static ArtigoRepository getInstance() throws SQLException, ClassNotFoundException {
@@ -48,33 +56,50 @@ public class ArtigoRepository {
         return instance;
     }
 
+    private Edicao findEdicao(Integer edicaoid) throws SQLException {
+        return edicaoRepository.findById(edicaoid).orElse(null);
+    }
+
+    private Tipo findTipo(Integer tipoid) throws SQLException {
+        return tipoRepository.findById(tipoid).orElse(null);
+    }
+
+    private List<Autor> findAutores(Integer idartigo) throws SQLException {
+        return autorRepository.findByArtigoId(idartigo);
+    }
+
     public Optional<Artigo> findById(Integer artigoid) throws SQLException {
         select.setInt(1, artigoid);
         ResultSet rs = select.executeQuery();
-        if (rs.next())
+        if (rs.next()){
+            Integer id = rs.getInt(1);
             return Optional.of(new Artigo(
-                    rs.getInt(1),
+                    id,
                     rs.getString(2),
-                    rs.getInt(3),
-                    rs.getInt(4)
+                    findTipo(rs.getInt(3)),
+                    findEdicao(rs.getInt(4)),
+                    findAutores(id)
             ));
+        }
         return Optional.empty();
     }
 
     public void update(Artigo artigo) throws SQLException {
         update.setString(1, artigo.getTitulo());
-        update.setInt(2, artigo.getTipoid());
-        update.setInt(3, artigo.getEdicaoid());
+        update.setInt(2, artigo.getTipo().getTipoid());
+        update.setInt(3, artigo.getEdicao().getEdicaoid());
         update.setInt(4, artigo.getArtigoid());
         update.executeUpdate();
     }
 
     public void save(Artigo artigo) throws SQLException {
-        this.insert.setInt(1, selectNewId());
+        Integer newId = selectNewId();
+        this.insert.setInt(1, newId);
         this.insert.setString(2, artigo.getTitulo());
-        this.insert.setInt(3, artigo.getTipoid());
-        this.insert.setInt(4, artigo.getEdicaoid());
+        this.insert.setInt(3, artigo.getTipo().getTipoid());
+        this.insert.setInt(4, artigo.getEdicao().getEdicaoid());
         this.insert.executeUpdate();
+        for (Autor autor : artigo.getAutores()) autoresArtigoRepository.save(newId, autor.getAutorid());
     }
 
     public Integer selectNewId() throws SQLException {
@@ -118,11 +143,13 @@ public class ArtigoRepository {
         ResultSet rs = selectByCidade.executeQuery();
         List<Artigo> list = new ArrayList<>();
         while (rs.next()) {
+            Integer id = rs.getInt(1);
             list.add(new Artigo(
-                    rs.getInt(1),
+                    id,
                     rs.getString(2),
-                    rs.getInt(3),
-                    rs.getInt(4)
+                    findTipo(rs.getInt(3)),
+                    findEdicao(rs.getInt(4)),
+                    findAutores(id)
             ));
         }
         return list;

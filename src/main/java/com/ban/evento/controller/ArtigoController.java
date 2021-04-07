@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.sql.SQLException;
@@ -19,6 +21,17 @@ public class ArtigoController {
 
     @Autowired
     private ArtigoService service;
+
+    @PostMapping
+    public ResponseEntity save(@RequestBody Artigo artigo) {
+        try {
+            service.save(artigo);
+            return new ResponseEntity("Artigo cadastrado", HttpStatus.ACCEPTED);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return new ResponseEntity(throwables.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @GetMapping
     public ResponseEntity findAll(){
