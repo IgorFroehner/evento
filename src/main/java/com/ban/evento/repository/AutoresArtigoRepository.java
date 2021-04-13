@@ -1,5 +1,7 @@
 package com.ban.evento.repository;
 
+import com.ban.evento.config.ConnectionSingleton;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,7 +30,6 @@ public class AutoresArtigoRepository {
         this.save.setInt(1, selectNewId());
         this.save.setInt(2, autorid);
         this.save.setInt(3, artigoid);
-        System.out.println(autorid +" "+ artigoid);
         this.save.executeUpdate();
     }
 

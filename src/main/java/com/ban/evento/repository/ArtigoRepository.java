@@ -1,9 +1,11 @@
 package com.ban.evento.repository;
 
+import com.ban.evento.config.ConnectionSingleton;
 import com.ban.evento.model.Artigo;
 import com.ban.evento.model.Autor;
 import com.ban.evento.model.Edicao;
 import com.ban.evento.model.Tipo;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class ArtigoRepository {
 
     private static ArtigoRepository instance = null;
@@ -100,7 +103,6 @@ public class ArtigoRepository {
         this.insert.setInt(4, artigo.getEdicao().getEdicaoid());
         this.insert.executeUpdate();
         for (Autor autor : artigo.getAutores()){
-            System.out.println(autor.toString());
             autoresArtigoRepository.save(autor.getAutorid(), newId);
         }
     }

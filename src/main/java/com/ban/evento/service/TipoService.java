@@ -4,6 +4,7 @@ import com.ban.evento.model.Autor;
 import com.ban.evento.model.Tipo;
 import com.ban.evento.repository.AutorRepository;
 import com.ban.evento.repository.TipoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @Service
 public class TipoService {
 
+    @Autowired
     private TipoRepository repository;
 
     public TipoService() throws SQLException, ClassNotFoundException {

@@ -53,7 +53,6 @@ public class ArtigoController {
     public String artigo_form(Model model) {
         try {
             model.addAttribute("tipos", tipoService.findAll());
-            model.addAttribute("new_id", service.newId());
             model.addAttribute("edicoes", edicaoService.findAll());
             model.addAttribute("newArtigo", new ArtigoDTO());
         } catch (SQLException throwables) {
@@ -65,13 +64,11 @@ public class ArtigoController {
 
     @PostMapping("/save_artigo")
     public String save_artigo(@ModelAttribute ArtigoDTO artigoDTO) {
-        System.out.println(artigoDTO.toString());
         try {
             List<Autor> autores = new ArrayList<>();
             for (String autorid : artigoDTO.getAutoresids().split(" ")){
                 autores.add(autorService.findById(Integer.parseInt(autorid)).orElse(null));
             }
-            System.out.println(autores);
             Artigo newArtigo = new Artigo(
                     artigoDTO.getArtigoid(),
                     artigoDTO.getTitulo(),

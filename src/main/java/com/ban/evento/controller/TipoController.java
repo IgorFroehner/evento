@@ -1,5 +1,8 @@
 package com.ban.evento.controller;
 
+import com.ban.evento.DTOs.EdicaoDTO;
+import com.ban.evento.DTOs.TipoDTO;
+import com.ban.evento.model.Edicao;
 import com.ban.evento.model.Tipo;
 import com.ban.evento.service.TipoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.sql.SQLException;
@@ -29,6 +34,23 @@ public class TipoController {
             return "Houve um erro";
         }
         return "tipo";
+    }
+
+    @GetMapping("/tipo_form")
+    public String artigo_form(Model model) {
+        model.addAttribute("newTipo", new TipoDTO());
+        return "/forms/tipo_form";
+    }
+
+    @PostMapping("/save_tipo")
+    public String save_artigo(@ModelAttribute TipoDTO tipoDTO) {
+        try {
+            Tipo tipo = new Tipo(null, tipoDTO.getNome());
+            service.save(tipo);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return "redirect:/tipo";
     }
 
     @GetMapping("api/tipo")

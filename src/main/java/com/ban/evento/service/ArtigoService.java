@@ -3,6 +3,7 @@ package com.ban.evento.service;
 import com.ban.evento.model.Artigo;
 import com.ban.evento.model.Edicao;
 import com.ban.evento.repository.ArtigoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import java.util.Optional;
 @Service
 public class ArtigoService {
 
+    @Autowired
     private ArtigoRepository repository;
 
     public ArtigoService() throws SQLException, ClassNotFoundException {

@@ -1,6 +1,6 @@
 package com.ban.evento;
 
-import com.ban.evento.repository.ConnectionSingleton;
+import com.ban.evento.config.ConnectionSingleton;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;

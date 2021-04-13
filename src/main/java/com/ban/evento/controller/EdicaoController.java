@@ -1,6 +1,9 @@
 package com.ban.evento.controller;
 
+import com.ban.evento.DTOs.ArtigoDTO;
+import com.ban.evento.DTOs.EdicaoDTO;
 import com.ban.evento.model.Artigo;
+import com.ban.evento.model.Autor;
 import com.ban.evento.model.Edicao;
 import com.ban.evento.repository.EdicaoRepository;
 import com.ban.evento.service.EdicaoService;
@@ -10,9 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -31,6 +37,28 @@ public class EdicaoController {
             return "Houve um erro";
         }
         return "edicao";
+    }
+
+    @GetMapping("/edicao_form")
+    public String artigo_form(Model model) {
+        model.addAttribute("newEdicao", new EdicaoDTO());
+        return "/forms/edicao_form";
+    }
+
+    @PostMapping("/save_edicao")
+    public String save_artigo(@ModelAttribute EdicaoDTO edicaoDTO) {
+        try {
+            Edicao edicao = new Edicao(
+                    null,
+                    edicaoDTO.getCidade(),
+                    edicaoDTO.getUf(),
+                    edicaoDTO.getQtdparticipantes(),
+                    edicaoDTO.getAno());
+            service.save(edicao);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return "redirect:/edicao";
     }
 
     @GetMapping("/api/edicao")

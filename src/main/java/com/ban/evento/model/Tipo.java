@@ -5,7 +5,6 @@ import java.util.Objects;
 public class Tipo {
 
     private Integer tipoid;
-
     private String nome;
 
     public Tipo(Integer tipoid, String nome) {

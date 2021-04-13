@@ -1,6 +1,8 @@
 package com.ban.evento.repository;
 
+import com.ban.evento.config.ConnectionSingleton;
 import com.ban.evento.model.Edicao;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class EdicaoRepository {
 
     private static EdicaoRepository instance = null;
