@@ -19,7 +19,7 @@ Sua aplicação deverá conter:
   * A listagem de artigos exibe os autores do artigo, que precisam ser buscados fazendo um `join` com 
     a tabela autores artigo e autores.
 
-- [ ] Uma opção para listar o resultado de uma consulta que envolva subconsulta(s) e uma ou mais funções de agregação.
+- [X] Uma opção para listar o resultado de uma consulta que envolva subconsulta(s) e uma ou mais funções de agregação.
 
-    - [ ] Buscar quantos artigos foram lançados de cada tipo.
-    - [ ] Buscar quantos artigos cada autor lançou.
+    - [X] Buscar quantos artigos foram lançados de cada tipo.
+    - [X] Buscar quantos artigos cada autor lançou.

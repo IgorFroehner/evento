@@ -31,7 +31,9 @@
                         <h2>Edições</h2>
                         <p>Registra as edições anuais do evento, com id, ano, cidade e estado que ocorrem. Além disto, o campo
                             qtdparticipantes registra o total de pessoas inscritas para assistir ao evento.</p>
-                        <button class="btn btn-outline-dark" type="button">Edições</button>
+                        <a th:href="@{/edicao}">
+                            <button class="btn btn-outline-dark" type="button">Edições</button>
+                        </a>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -39,7 +41,9 @@
                         <h2>Tipos</h2>
                         <p>Registra os tipos dos artigos, contendo os campos id e nome. Os nomes dos tipos podem ser:
                             “Graduação”, “Pós-Graduação”, “Pesquisa”, e “Aplicações/Experiências”.</p>
-                        <button class="btn btn-outline-dark" type="button">Tipos</button>
+                        <a th:href="@{/tipo}">
+                            <button class="btn btn-outline-dark" type="button">Tipos</button>
+                        </a>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -47,7 +51,9 @@
                         <h2>Autores</h2>
                         <p>Registra os dados dos autores de artigos. Cada autor possui um id, nome e genero que pode ser ‘f’ ou
                             ‘m’.</p>
-                        <button class="btn btn-outline-dark" type="button">Autores</button>
+                        <a th:href="@{/autor}">
+                            <button class="btn btn-outline-dark" type="button">Autores</button>
+                        </a>
                     </div>
                 </div>
             </div>

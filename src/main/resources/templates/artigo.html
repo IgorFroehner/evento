@@ -22,24 +22,26 @@
         <div class="container bg-transparent">
             <table class="table table-dark table-striped text-white">
                 <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Título</th>
-                    <th scope="col">Tipo</th>
-                    <th scope="col">Ediçao</th>
-                    <th scope="col">Autores</th>
-                </tr>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Título</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Ediçao</th>
+                        <th scope="col" width="20%" >Autores</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr th:each="artigo : ${list_artigos}">
-                    <td th:text="${artigo.artigoid}">ID</td>
-                    <td th:text="${artigo.titulo}">ID</td>
-                    <td th:text="${artigo.tipo}">ID</td>
-                    <td th:text="${artigo.edicao}">ID</td>
-                    <td th:each="autor : ${artigo.autores}">
-                        <div th:text="${autor.nome}">nome</div>
-                    </td>
-                </tr>
+                    <tr th:each="artigo : ${list_artigos}">
+                        <td th:text="${artigo.artigoid}">ID</td>
+                        <td th:text="${artigo.titulo}">ID</td>
+                        <td th:text="${artigo.tipo}">ID</td>
+                        <td th:text="${artigo.edicao}">ID</td>
+                        <td>
+                            <div th:each="autor : ${artigo.autores}">
+                                <span th:text="${autor.nome}"></span>,
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
