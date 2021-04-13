@@ -23,16 +23,28 @@ public class AutorRepository {
     private PreparedStatement delete;
     private PreparedStatement selectAll;
     private PreparedStatement findByArtigo;
+    private PreparedStatement nroArtigosFromAutorId;
 
     public AutorRepository() throws SQLException, ClassNotFoundException {
         Connection connection = ConnectionSingleton.getConnection();
         insert = connection.prepareStatement("INSERT INTO public.autores VALUES(?, ?, ?)");
         update = connection.prepareStatement("UPDATE public.autores SET nome=?, genero=? WHERE autorid=?");
         newId = connection.prepareStatement("SELECT max(autorid)+1 FROM public.autores");
-        selectAll = connection.prepareStatement("SELECT * FROM public.autores");
+        selectAll = connection.prepareStatement("SELECT * FROM public.autores ORDER BY autorid");
         select = connection.prepareStatement("SELECT * FROM public.autores WHERE autorid=?");
         delete = connection.prepareStatement("DELETE FROM public.autores WHERE autorid=?");
         findByArtigo = connection.prepareStatement("SELECT a.* FROM autores a JOIN autoresartigo aa ON a.autorid = aa.autorid WHERE aa.artigoid=?");
+        nroArtigosFromAutorId = connection.prepareStatement(
+                "select count(*) as total from\n" +
+                "(select * from autores where autorid=?) a\n" +
+                "join\n" +
+                "autoresartigo aa\n" +
+                "join\n" +
+                "artigos\n" +
+                "on artigos.artigoid = aa.artigoid\n" +
+                "on a.autorid = aa.autorid\n" +
+                "group by a.autorid\n" +
+                "order by a.autorid;");
     }
 
     public static AutorRepository getInstance() throws SQLException, ClassNotFoundException {
@@ -73,6 +85,14 @@ public class AutorRepository {
         if (rs.next())
             return rs.getInt(1);
         return -1;
+    }
+
+    public Integer nroArtigosFromAutorId(Integer idAutor) throws SQLException {
+        nroArtigosFromAutorId.setInt(1, idAutor);
+        ResultSet rs = nroArtigosFromAutorId.executeQuery();
+        if (rs.next())
+            return rs.getInt(1);
+        return 0;
     }
 
     public List<Autor> findAll() throws SQLException {

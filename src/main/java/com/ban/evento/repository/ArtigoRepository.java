@@ -39,7 +39,7 @@ public class ArtigoRepository {
         insert = connection.prepareStatement("INSERT INTO public.artigos VALUES(?, ?, ?, ?)");
         update = connection.prepareStatement("UPDATE public.artigos SET titulo=?, tipoid=?, edicaoid=? WHERE artigoid=?");
         newId = connection.prepareStatement("SELECT max(artigoid)+1 FROM public.artigos");
-        selectAll = connection.prepareStatement("SELECT * FROM public.artigos");
+        selectAll = connection.prepareStatement("SELECT * FROM public.artigos ORDER BY artigoid");
         select = connection.prepareStatement("SELECT * FROM public.artigos WHERE artigoid=?");
         delete = connection.prepareStatement("DELETE FROM artigos WHERE artigoid=?");
         selectByEdicao = connection.prepareStatement("SELECT * FROM public.artigos WHERE edicaoid=?");

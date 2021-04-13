@@ -25,12 +25,14 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Nome</th>
+                    <th scope="col">Número Artigos</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="tipo : ${list_tipos}">
                     <td th:text="${tipo.tipoid}">ID</td>
-                    <td th:text="${tipo.nome}">ID</td>
+                    <td th:text="${tipo.nome}">nome</td>
+                    <td th:text="${tipo.nroArtigos}">nroArtigos</td>
                 </tr>
                 </tbody>
             </table>

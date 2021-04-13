@@ -31,4 +31,8 @@ public class AutorService {
         return this.repository.findAll();
     }
 
+    public Integer nroArtigosFromAutorId(Integer autorId) throws SQLException {
+        return this.repository.nroArtigosFromAutorId(autorId);
+    }
+
 }

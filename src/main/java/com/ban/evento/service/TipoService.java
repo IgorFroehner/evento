@@ -33,8 +33,8 @@ public class TipoService {
         return this.repository.findAll();
     }
 
-    public Integer nroArtigosFromTipo(Tipo tipo) throws SQLException {
-        return this.repository.nroArtigosFromTipo(tipo);
+    public Integer nroArtigosFromTipoId(Integer tipoId) throws SQLException {
+        return this.repository.nroArtigosFromTipo(tipoId);
     }
 
 }

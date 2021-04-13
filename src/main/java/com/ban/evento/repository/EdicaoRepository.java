@@ -28,7 +28,7 @@ public class EdicaoRepository {
         insert = connection.prepareStatement("INSERT INTO public.edicoes VALUES(?, ?, ?, ?, ?)");
         update = connection.prepareStatement("UPDATE public.edicoes SET cidade=?, uf=?, qtdparticipantes=?, ano=? WHERE edicaoid=?");
         newId = connection.prepareStatement("SELECT max(edicaoid)+1 FROM public.edicoes");
-        selectAll = connection.prepareStatement("SELECT * FROM public.edicoes");
+        selectAll = connection.prepareStatement("SELECT * FROM public.edicoes ORDER BY edicaoid");
         select = connection.prepareStatement("SELECT * FROM public.edicoes WHERE edicaoid=?");
         delete = connection.prepareStatement("DELETE FROM public.edicoes WHERE edicaoid=?");
     }

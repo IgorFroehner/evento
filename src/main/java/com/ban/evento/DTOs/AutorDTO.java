@@ -5,6 +5,7 @@ public class AutorDTO {
     private Integer autorid;
     private String nome;
     private Character genero;
+    private Integer nroArtigosPublicados;
 
     public AutorDTO(Integer autorid, String nome, Character genero) {
         this.autorid = autorid;
@@ -27,6 +28,14 @@ public class AutorDTO {
                 ", nome='" + nome + '\'' +
                 ", genero=" + genero +
                 '}';
+    }
+
+    public Integer getNroArtigosPublicados() {
+        return nroArtigosPublicados;
+    }
+
+    public void setNroArtigosPublicados(Integer nroArtigosPublicados) {
+        this.nroArtigosPublicados = nroArtigosPublicados;
     }
 
     public Integer getAutorid() {

@@ -4,6 +4,7 @@ public class TipoDTO {
 
     private Integer tipoid;
     private String nome;
+    private Integer nroArtigos;
 
     public TipoDTO(Integer tipoid, String nome) {
         this.tipoid = tipoid;
@@ -12,6 +13,14 @@ public class TipoDTO {
 
     public TipoDTO(String nome) {
         this.nome = nome;
+    }
+
+    public Integer getNroArtigos() {
+        return nroArtigos;
+    }
+
+    public void setNroArtigos(Integer nroArtigos) {
+        this.nroArtigos = nroArtigos;
     }
 
     public TipoDTO() {

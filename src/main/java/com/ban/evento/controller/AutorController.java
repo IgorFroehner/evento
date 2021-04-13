@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -28,7 +29,11 @@ public class AutorController {
     public String artigo(Model model) {
         model.addAttribute("titulo", "Autor");
         try {
-            model.addAttribute("list_autor", service.findAll());
+            List<AutorDTO> list_autor = convertToDTO(service.findAll());
+            for (AutorDTO autorDTO : list_autor) {
+                autorDTO.setNroArtigosPublicados(service.nroArtigosFromAutorId(autorDTO.getAutorid()));
+            }
+            model.addAttribute("list_autor", list_autor);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return "Houve um erro";
@@ -79,6 +84,14 @@ public class AutorController {
             throwables.printStackTrace();
             return new ResponseEntity("Id não encontrado", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private List<AutorDTO> convertToDTO(List<Autor> autores) {
+        List<AutorDTO> res = new ArrayList<>();
+        for (Autor autor : autores) {
+            res.add(new AutorDTO(autor.getAutorid(), autor.getNome(), autor.getGenero()));
+        }
+        return res;
     }
 
 }

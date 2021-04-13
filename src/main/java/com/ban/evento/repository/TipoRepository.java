@@ -29,7 +29,7 @@ public class TipoRepository {
         insert = connection.prepareStatement("INSERT INTO public.tipos VALUES(?, ?)");
         update = connection.prepareStatement("UPDATE public.tipos SET nome=? WHERE tipoid=?");
         newId = connection.prepareStatement("SELECT max(tipoid)+1 FROM public.tipos");
-        selectAll = connection.prepareStatement("SELECT * FROM public.tipos");
+        selectAll = connection.prepareStatement("SELECT * FROM public.tipos ORDER BY tipoid");
         select = connection.prepareStatement("SELECT * FROM public.tipos WHERE tipoid=?");
         delete = connection.prepareStatement("DELETE FROM public.tipos WHERE tipoid=?");
         nroArtigosFromTipo = connection.prepareStatement("select a.cont from tipos t join (select tipoid as id, count(*) as cont from artigos where tipoid=? group by tipoid) a on t.tipoid=a.id");
@@ -84,10 +84,12 @@ public class TipoRepository {
         return list;
     }
 
-    public Integer nroArtigosFromTipo(Tipo tipo) throws SQLException {
-        nroArtigosFromTipo.setInt(1, tipo.getTipoid());
+    public Integer nroArtigosFromTipo(Integer tipoId) throws SQLException {
+        nroArtigosFromTipo.setInt(1, tipoId);
         ResultSet rs = nroArtigosFromTipo.executeQuery();
-        return rs.getInt(1);
+        if (rs.next())
+            return rs.getInt(1);
+        return 0;
     }
 
     public void delete(Tipo tipo) throws SQLException {
