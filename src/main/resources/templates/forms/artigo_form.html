@@ -15,24 +15,25 @@
     </div>
 
     <div class="container">
-        <form>
+        <form th:action="@{/save_artigo}" th:object="${newArtigo}" method="POST">
             <div class="form-floating mb-5">
-                <input readonly class="form-control" id="id_artigo" placeholder="Título do seu artigo" th:value="${new_id}">
-                <label for="id_artigo">Id</label>
-            </div>
-
-            <div class="form-floating mb-5">
-                <input type="text" class="form-control" id="titulo_artigo" placeholder="Título do seu artigo">
+                <input type="text" class="form-control" id="titulo_artigo" placeholder="Título do seu artigo" th:field="*{titulo}">
                 <label for="titulo_artigo">Título</label>
             </div>
             <div class="form-floating mb-5">
-                <select class="form-select" id="tipo_artigo" aria-label="Tipo do artigo">
-                    <option th:each="tipo : ${tipos}" th:value="${tipo.tipoid}" th:text="${tipo.nome}">?</option>
+                <select class="form-select" id="tipo_artigo" aria-label="Tipo do artigo" th:field="*{tipoid}">
+                    <option th:each="tipo : ${tipos}" th:value="${tipo.tipoid}" th:text="${tipo}">?</option>
                 </select>
                 <label for="tipo_artigo">Tipo do Artigo</label>
             </div>
             <div class="form-floating mb-5">
-                <input type="text" class="form-control" id="id_autores_artigo" placeholder="Título do seu artigo">
+                <select class="form-select" id="edicao_artigo" aria-label="Tipo do artigo" th:field="*{edicaoid}">
+                    <option th:each="edicao : ${edicoes}" th:value="${edicao.edicaoid}" th:text="${edicao}">?</option>
+                </select>
+                <label for="edicao_artigo">Tipo do Artigo</label>
+            </div>
+            <div class="form-floating mb-5">
+                <input type="text" class="form-control" id="id_autores_artigo" placeholder="Título do seu artigo" th:field="*{autoresids}">
                 <label for="id_autores_artigo">Id dos autores (separados por espaço)</label>
             </div>
             <div class="row mb-5">

@@ -1,8 +1,12 @@
 package com.ban.evento.controller;
 
+import com.ban.evento.DTOs.ArtigoDTO;
 import com.ban.evento.model.Artigo;
+import com.ban.evento.model.Autor;
 import com.ban.evento.model.Edicao;
 import com.ban.evento.service.ArtigoService;
+import com.ban.evento.service.AutorService;
+import com.ban.evento.service.EdicaoService;
 import com.ban.evento.service.TipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,10 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,6 +30,12 @@ public class ArtigoController {
 
     @Autowired
     private TipoService tipoService;
+
+    @Autowired
+    private EdicaoService edicaoService;
+
+    @Autowired
+    private AutorService autorService;
 
     @GetMapping("/artigo")
     public String artigo(Model model) {
@@ -38,16 +50,39 @@ public class ArtigoController {
     }
 
     @GetMapping("/artigo_form")
-    @PostMapping("/artigo_form")
     public String artigo_form(Model model) {
         try {
             model.addAttribute("tipos", tipoService.findAll());
             model.addAttribute("new_id", service.newId());
+            model.addAttribute("edicoes", edicaoService.findAll());
+            model.addAttribute("newArtigo", new ArtigoDTO());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return "Houve um erro";
         }
         return "/forms/artigo_form";
+    }
+
+    @PostMapping("/save_artigo")
+    public String save_artigo(@ModelAttribute ArtigoDTO artigoDTO) {
+        System.out.println(artigoDTO.toString());
+        try {
+            List<Autor> autores = new ArrayList<>();
+            for (String autorid : artigoDTO.getAutoresids().split(" ")){
+                autores.add(autorService.findById(Integer.parseInt(autorid)).orElse(null));
+            }
+            System.out.println(autores);
+            Artigo newArtigo = new Artigo(
+                    artigoDTO.getArtigoid(),
+                    artigoDTO.getTitulo(),
+                    tipoService.findById(artigoDTO.getTipoid()).orElse(null),
+                    edicaoService.findById(artigoDTO.getEdicaoid()).orElse(null),
+                    autores);
+            service.save(newArtigo);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return "redirect:/artigo";
     }
 
     @PostMapping("/api/artigo")

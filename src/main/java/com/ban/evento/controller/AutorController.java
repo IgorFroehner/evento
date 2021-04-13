@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -18,6 +18,19 @@ public class AutorController {
 
     @Autowired
     private AutorService service;
+
+    @GetMapping("/autor")
+    public String artigo(Model model) {
+        model.addAttribute("titulo", "Autor");
+        try {
+            model.addAttribute("list_autor", service.findAll());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return "Houve um erro";
+        }
+        return "autor";
+    }
+
 
     @GetMapping("/api/autor")
     public ResponseEntity findAll(){

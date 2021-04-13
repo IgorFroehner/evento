@@ -10,6 +10,15 @@ public class Autor {
 
     private Character genero;
 
+    @Override
+    public String toString() {
+        return "Autor{" +
+                "autorid=" + autorid +
+                ", nome='" + nome + '\'' +
+                ", genero=" + genero +
+                '}';
+    }
+
     public Autor() {
     }
 

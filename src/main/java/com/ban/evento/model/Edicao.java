@@ -25,6 +25,11 @@ public class Edicao {
         this.ano = ano;
     }
 
+    @Override
+    public String toString() {
+        return cidade + "-" + uf + " " + ano;
+    }
+
     public Integer getEdicaoid() {
         return edicaoid;
     }

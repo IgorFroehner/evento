@@ -99,7 +99,10 @@ public class ArtigoRepository {
         this.insert.setInt(3, artigo.getTipo().getTipoid());
         this.insert.setInt(4, artigo.getEdicao().getEdicaoid());
         this.insert.executeUpdate();
-        for (Autor autor : artigo.getAutores()) autoresArtigoRepository.save(newId, autor.getAutorid());
+        for (Autor autor : artigo.getAutores()){
+            System.out.println(autor.toString());
+            autoresArtigoRepository.save(autor.getAutorid(), newId);
+        }
     }
 
     public Integer selectNewId() throws SQLException {

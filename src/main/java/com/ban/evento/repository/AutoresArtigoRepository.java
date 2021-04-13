@@ -13,7 +13,7 @@ public class AutoresArtigoRepository {
 
     private AutoresArtigoRepository() throws SQLException, ClassNotFoundException {
         Connection connection = ConnectionSingleton.getConnection();
-        save = connection.prepareStatement("INSERT INTO autoresartigo VALUES (?, ?, ?)");
+        save = connection.prepareStatement("INSERT INTO public.autoresartigo VALUES (?, ?, ?)");
         newId = connection.prepareStatement("SELECT max(id)+1 FROM public.autoresartigo");
     }
 
@@ -25,9 +25,11 @@ public class AutoresArtigoRepository {
     }
 
     public void save(Integer autorid, Integer artigoid) throws SQLException {
-        save.setInt(1, selectNewId());
-        save.setInt(2, autorid);
-        save.setInt(3, artigoid);
+        this.save.setInt(1, selectNewId());
+        this.save.setInt(2, autorid);
+        this.save.setInt(3, artigoid);
+        System.out.println(autorid +" "+ artigoid);
+        this.save.executeUpdate();
     }
 
     public Integer selectNewId() throws SQLException {
