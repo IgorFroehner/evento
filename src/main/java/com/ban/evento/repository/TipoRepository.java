@@ -19,6 +19,7 @@ public class TipoRepository {
     private PreparedStatement newId;
     private PreparedStatement delete;
     private PreparedStatement selectAll;
+    private PreparedStatement nroArtigosFromTipo;
 
     public TipoRepository() throws SQLException, ClassNotFoundException {
         Connection connection = ConnectionSingleton.getConnection();
@@ -28,6 +29,7 @@ public class TipoRepository {
         selectAll = connection.prepareStatement("SELECT * FROM public.tipos");
         select = connection.prepareStatement("SELECT * FROM public.tipos WHERE tipoid=?");
         delete = connection.prepareStatement("DELETE FROM public.tipos WHERE tipoid=?");
+        nroArtigosFromTipo = connection.prepareStatement("select a.cont from tipos t join (select tipoid as id, count(*) as cont from artigos where tipoid=? group by tipoid) a on t.tipoid=a.id");
     }
 
     public static TipoRepository getInstance() throws SQLException, ClassNotFoundException {
@@ -77,6 +79,12 @@ public class TipoRepository {
             ));
         }
         return list;
+    }
+
+    public Integer nroArtigosFromTipo(Tipo tipo) throws SQLException {
+        nroArtigosFromTipo.setInt(1, tipo.getTipoid());
+        ResultSet rs = nroArtigosFromTipo.executeQuery();
+        return rs.getInt(1);
     }
 
     public void delete(Tipo tipo) throws SQLException {

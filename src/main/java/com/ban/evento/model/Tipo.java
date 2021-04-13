@@ -33,6 +33,11 @@ public class Tipo {
     }
 
     @Override
+    public String toString() {
+        return nome;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Tipo)) return false;

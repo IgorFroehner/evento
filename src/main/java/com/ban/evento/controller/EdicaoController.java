@@ -15,13 +15,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/edicao")
 public class EdicaoController {
 
     @Autowired
     private EdicaoService service;
 
-    @GetMapping
+    @GetMapping("/api/edicao")
     public ResponseEntity findAll(){
         try {
             List<Edicao> res = service.findAll();
@@ -32,7 +31,7 @@ public class EdicaoController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/edicao/{id}")
     public ResponseEntity findById(Integer id) {
         try {
             return this.service.findById(id).map(

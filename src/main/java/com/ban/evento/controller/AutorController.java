@@ -14,13 +14,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/autor")
 public class AutorController {
 
     @Autowired
     private AutorService service;
 
-    @GetMapping
+    @GetMapping("/api/autor")
     public ResponseEntity findAll(){
         try {
             List<Autor> res = service.findAll();
@@ -31,7 +30,7 @@ public class AutorController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/autor/{id}")
     public ResponseEntity findById(Integer id) {
         try {
             return this.service.findById(id).map(

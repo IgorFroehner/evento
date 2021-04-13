@@ -3,26 +3,54 @@ package com.ban.evento.controller;
 import com.ban.evento.model.Artigo;
 import com.ban.evento.model.Edicao;
 import com.ban.evento.service.ArtigoService;
+import com.ban.evento.service.TipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/artigo")
 public class ArtigoController {
 
     @Autowired
     private ArtigoService service;
 
-    @PostMapping
+    @Autowired
+    private TipoService tipoService;
+
+    @GetMapping("/artigo")
+    public String artigo(Model model) {
+        model.addAttribute("titulo", "Artigos");
+        try {
+            model.addAttribute("list_artigos", service.findAll());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return "Houve um erro";
+        }
+        return "artigo";
+    }
+
+    @GetMapping("/artigo_form")
+    @PostMapping("/artigo_form")
+    public String artigo_form(Model model) {
+        try {
+            model.addAttribute("tipos", tipoService.findAll());
+            model.addAttribute("new_id", service.newId());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return "Houve um erro";
+        }
+        return "/forms/artigo_form";
+    }
+
+    @PostMapping("/api/artigo")
     public ResponseEntity save(@RequestBody Artigo artigo) {
         try {
             service.save(artigo);
@@ -33,7 +61,7 @@ public class ArtigoController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/api/artigo")
     public ResponseEntity findAll(){
         try {
             List<Artigo> res = service.findAll();
@@ -44,7 +72,7 @@ public class ArtigoController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/artigo/{id}")
     public ResponseEntity findById(Integer id) {
         try {
             return this.service.findById(id).map(
@@ -57,7 +85,7 @@ public class ArtigoController {
         }
     }
 
-    @GetMapping("by_edicao/{id}")
+    @GetMapping("/api/artigo/by_edicao/{id}")
     public ResponseEntity findByEdicao(Integer edicaoid) {
         try {
             Edicao edicao = new Edicao();
@@ -69,7 +97,7 @@ public class ArtigoController {
         }
     }
 
-    @GetMapping("by_cidade/{cidade}")
+    @GetMapping("/api/artigo/by_cidade/{cidade}")
     public ResponseEntity findByCidade(String cidade) {
         try {
             Edicao edicao = new Edicao();
@@ -81,7 +109,7 @@ public class ArtigoController {
         }
     }
 
-    @GetMapping("by_nome_autor/{nome_autor}")
+    @GetMapping("/api/artigo/by_nome_autor/{nome_autor}")
     public ResponseEntity findByNomeAutor(String nomeAutor) {
         try {
             return new ResponseEntity(this.service.findByNomeAutor(nomeAutor), HttpStatus.OK);

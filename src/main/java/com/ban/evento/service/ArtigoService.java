@@ -42,4 +42,8 @@ public class ArtigoService {
         return this.repository.findByNomeAutor(nomeAutor);
     }
 
+    public Integer newId() throws SQLException {
+        return this.repository.selectNewId();
+    }
+
 }
