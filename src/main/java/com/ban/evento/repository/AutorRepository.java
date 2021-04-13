@@ -30,7 +30,7 @@ public class AutorRepository {
         insert = connection.prepareStatement("INSERT INTO public.autores VALUES(?, ?, ?)");
         update = connection.prepareStatement("UPDATE public.autores SET nome=?, genero=? WHERE autorid=?");
         newId = connection.prepareStatement("SELECT max(autorid)+1 FROM public.autores");
-        selectAll = connection.prepareStatement("SELECT * FROM public.autores ORDER BY autorid");
+        selectAll = connection.prepareStatement("SELECT * FROM public.autores ORDER BY autorid LIMIT 20");
         select = connection.prepareStatement("SELECT * FROM public.autores WHERE autorid=?");
         delete = connection.prepareStatement("DELETE FROM public.autores WHERE autorid=?");
         findByArtigo = connection.prepareStatement("SELECT a.* FROM autores a JOIN autoresartigo aa ON a.autorid = aa.autorid WHERE aa.artigoid=?");

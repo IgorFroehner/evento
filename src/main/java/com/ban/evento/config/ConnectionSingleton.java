@@ -17,9 +17,9 @@ public class ConnectionSingleton {
 
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
         if (connection==null) {
-            String url = "jdbc:postgresql://localhost:5432/evento";
-            String senha = "1234";
-            String user = "igor";
+            String url = "jdbc:postgresql://ec2-54-145-249-177.compute-1.amazonaws.com:5432/d4k6odkaig1qpd";
+            String senha = "2d21dfa0e3f4ee94efc72ebe85175eaae2c5d114dbe5044f825e0d9a4b4a6598";
+            String user = "oqkmckssxriydb";
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(url, user, senha);
         }
