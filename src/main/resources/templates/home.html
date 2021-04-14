@@ -12,6 +12,33 @@
 
         <div class="container bg-transparent py-4">
 
+            <div class="p-5 mb-4 bg-secondary rounded-3">
+                <div class="container-fluid py-5">
+                    <h1 class="display-5 fw-bold text-light">Como Usares</h1>
+                    <p class="col-md-8 fs-4 text-light">
+                        Para utilizar essa aplicação, você deve possuir dump o banco de dados na sua máquina local. </br>
+                        evento_backup: https://moodle.joinville.udesc.br/pluginfile.php/6987/mod_resource/content/1/evento_backup <br/>
+                        Após rodar o código do link em um Software gráfico para visualização de um SGBD, como o PgAdmin4, bastará fazer pequenas configurações no seu projeto para que ele se conecte corretamente ao banco: <br/>
+                    </p>
+
+                    <p class="col-md-8 fs-4 text-light">
+                        No arquivo config -> ConnectionSingleton, é necessário inserir os seguintes dados: <br/>
+                        nome sugerido para o db: evento <br/>
+                    </p>
+
+                    <p class="col-md-8 fs-4 text-light">
+                        String url = "jdbc:postgresql://localhost:5432/{nome_do_db}"; <br/>
+                        String senha = "sua_senha_do_db"; <br/>
+                        String user = "seu_usuario_do_db"; <br/>
+                        Class.forName("org.postgresql.Driver"); <br/>
+                        connection = DriverManager.getConnection(url, user, senha); <br/>
+                    </p>
+<!--                    <a th:href="@{/artigo}">-->
+<!--                        <button class="btn btn-outline-dark" type="button">Artigos</button>-->
+<!--                    </a>-->
+                </div>
+            </div>
+
             <div class="p-5 mb-4 bg-info rounded-3">
                 <div class="container-fluid py-5">
                     <h1 class="display-5 fw-bold">Artigos</h1>
