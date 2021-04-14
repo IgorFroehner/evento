@@ -24,7 +24,7 @@ Sua aplicação deverá conter:
     - [X] Buscar quantos artigos foram lançados de cada tipo.
     - [X] Buscar quantos artigos cada autor lançou.
 
-# Como usar
+### Como configurar o banco de dados
 
 Para utilizar essa aplicação, você deve possuir dump o banco de dados na sua máquina local.
 
@@ -42,3 +42,21 @@ String user = "seu_usuario_do_db";
 Class.forName("org.postgresql.Driver");
 connection = DriverManager.getConnection(url, user, senha);
 ```
+
+### Como rodar
+
+Foi usado meaven para o desenvolvimento, então será necessária a instalação previa, a intalação no UBUNTU pode ser feita como segue:
+
+```bash
+apt get install meaven
+```
+
+E para fazer a execução do servidor localmente é possível executar diretamente da IDE (foi usado IntelliJ), ou a partir do terminal
+usando o comando:
+
+```
+mvn spring-boot:run
+```
+
+Depois de terminar essa execução, é possível o acesso em `localhost:8080/`
+
